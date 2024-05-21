@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <title>油價變化</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+  <h1>油價變化</h1>
+  <div>
+    <!-- 可選取GasType的下拉選單並透過 /api 查詢該資料-->
+    <form id="search">
+      <label for="GasType">汽油種類：</label>
+      <select id="GasType" name="GasType">
+        <option value="gasoline92">92無鉛汽油</option>
+        <option value="gasoline95">95無鉛汽油</option>
+        <option value="gasoline98">98無鉛汽油</option>
+        <option value="diesel">超級柴油</option>
+      </select>
+      <input type="submit" value="查詢">
+    </form>
+    <table id="table">
+      <thead>
+      <tr>
+        <th>年份</th>
+        <th>價格</th>
+      </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    const form = document.getElementById('search');
+    const table = document.getElementById('table').getElementsByTagName('tbody')[0];
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const GasType = form.GasType.value;
+      const response = await fetch(`/api?GasType=${GasType}`);
+      const data = await response.json();
+      table.innerHTML = '';
+      data.forEach((item) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item.Year}</td>
+          <td>${item.Price}</td>
+        `;
+        table.appendChild(tr);
+      });
+    });
+  </script>
+</body>
+
+</html>
