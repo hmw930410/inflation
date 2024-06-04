@@ -37,7 +37,7 @@ db.run('CREATE TABLE IF NOT EXISTS ' +
     'GasType TEXT NOT NULL, ' +
     'Price REAL NOT NULL)');
 
-// 撰寫 /api 路由，使用 SQL 來查詢GasType的所有Year Price
+// 撰寫 /api 路由，使用 SQL 來查詢GasType的所有Year、Price；
 app.get('/api', (req, res) => {
     let GasType = req.query.GasType;
     let sql = 'SELECT Year, GasType, Price FROM Gas WHERE GasType = ?';
